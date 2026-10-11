@@ -1,0 +1,194 @@
+/* ============ RESET & TOKENS ============ */
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  /* warna diambil dari foto perpustakaan: kayu mahoni gelap, krem, kaca mint, merah sampul buku */
+  --bg:#1a120e;
+  --bg2:#241913;
+  --ink:#f4ebd9;
+  --mute:#b0a08c;
+  --red:#e2382c;
+  --glass:#bfe0d4;
+  --wood:#4a2a1c;
+  --line:rgba(244,235,217,.15);
+  --pad:clamp(20px,4.6vw,56px);
+  --display:'Anton','Impact','Haettenschweiler','Arial Narrow Bold','Arial Narrow',sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:400;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.red{color:var(--red)}
+::selection{background:var(--red);color:#fff}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--glass);outline-offset:3px}
+
+/* ============ MENU (4 tombol kecil, atas tengah) ============ */
+.menu{position:fixed;z-index:60;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;max-width:calc(100vw - 20px)}
+.menu a{padding:9px 16px;border:1px solid rgba(244,235,217,.38);border-radius:12px;
+  background:rgba(20,14,11,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  font:600 12px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:var(--ink);
+  transition:background .25s,border-color .25s,transform .25s,color .25s}
+.menu a:hover{background:var(--red);border-color:var(--red);color:#fff;transform:translateY(2px)}
+
+/* ============ HERO (PAGE 1) ============ */
+.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#120d0a;isolation:isolate;container-type:size}
+
+/* foto latar dan foto orang punya ukuran sama persis, jadi dibuat dengan aturan yang sama agar selalu sejajar */
+.bg,.cutout{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;max-width:none;pointer-events:none}
+.bg{z-index:0;filter:brightness(.66) saturate(1.05) contrast(1.06)}
+.cutout{z-index:3;filter:brightness(.94) drop-shadow(0 12px 26px rgba(0,0,0,.5));animation:fade 1.3s ease .35s both}
+
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 26%,transparent 58%,rgba(0,0,0,.7) 100%)}
+
+/* tulisan berada di antara latar dan orang; posisinya mengikuti tinggi foto supaya orang selalu menimpa huruf tengah */
+.giant{position:absolute;z-index:2;left:0;right:0;margin:0;text-align:center;white-space:nowrap;pointer-events:none;
+  font-family:var(--display);font-weight:400;color:var(--red);
+  font-size:26vw;line-height:.82;letter-spacing:-.01em;
+  bottom:calc(max(100svh,56.25vw)*.36);
+  animation:rise 1.2s cubic-bezier(.2,.8,.2,1) both}
+@supports (height:1cqh){
+  .giant{bottom:calc(max(100cqh,56.25cqw)*.36)}
+}
+@keyframes rise{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.topbar{position:absolute;z-index:5;top:0;left:0;right:0;padding:clamp(18px,3vw,30px) var(--pad);
+  display:flex;justify-content:space-between;gap:16px;
+  font-size:clamp(11px,1.1vw,13px);letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:#efe6d4}
+
+.hero-bottom{position:absolute;z-index:5;left:0;right:0;bottom:0;padding:0 var(--pad) clamp(18px,3vw,32px);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
+  font-size:clamp(12px,1.1vw,14px);color:#efe6d4;animation:fadeUp 1s ease .7s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.hero-copy{margin:0;max-width:300px;line-height:1.5}
+.hero-meta{display:flex;gap:clamp(14px,2.4vw,36px);flex-wrap:wrap;justify-content:flex-end}
+.hero-meta a:hover{color:var(--red)}
+
+/* ============ RAK BUKU (pembatas halaman) ============ */
+.spines{height:54px;border-bottom:12px solid var(--wood);
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.4),transparent 45%,rgba(0,0,0,.35)),
+    repeating-linear-gradient(90deg,
+      #8c2a22 0 9px,#1f3d63 9px 18px,#e3d3ab 18px 23px,#2c5b45 23px 33px,#b9382b 33px 38px,
+      #26364f 38px 50px,#e0a53a 50px 56px,#5a3328 56px 66px,#d9d2c0 66px 70px,#3b6a8f 70px 80px)}
+
+/* ============ SHARED PAGE STYLES ============ */
+.page{position:relative;min-height:100vh;min-height:100svh;padding:clamp(96px,10vw,130px) var(--pad) clamp(60px,8vw,110px);background:var(--bg)}
+.page.alt{background:var(--bg2)}
+.bar{position:absolute;top:0;left:0;right:0;padding:clamp(20px,3vw,34px) var(--pad);
+  display:flex;justify-content:space-between;gap:16px;
+  font-size:clamp(11px,1.1vw,13px);letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--mute)}
+.bar span:last-child{color:var(--ink)}
+
+.display{margin:0 0 clamp(28px,5vw,64px);font-family:var(--display);font-weight:400;text-transform:uppercase;
+  font-size:clamp(52px,10.5vw,170px);line-height:.92;letter-spacing:.005em;text-wrap:balance}
+.sub{margin:0 0 6px;color:var(--glass);font-weight:500;font-size:.95rem}
+h3{margin:0 0 4px;font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(22px,2.4vw,34px);line-height:1.1}
+
+/* muncul perlahan saat di-scroll (CSS saja). Browser lama tetap menampilkan semuanya */
+@keyframes reveal{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@supports (animation-timeline:view()){
+  .reveal{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+}
+
+/* ============ ABOUT ============ */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,6vw,90px);align-items:center}
+.about-text{min-width:0}
+.about-text .display{font-size:clamp(46px,8vw,128px)}
+.about-text p{max-width:56ch;color:#d8ccb7;margin:0 0 18px}
+.about-text .lead{font-size:clamp(1.05rem,1.5vw,1.3rem);color:var(--ink)}
+.chips{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.chips li{padding:8px 16px;border:1px solid var(--line);border-radius:12px;font-size:.85rem;transition:.3s}
+.chips li:hover{background:var(--red);border-color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:clamp(20px,4vw,56px);margin-top:40px;padding-top:28px;border-top:1px solid var(--line)}
+.stats b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(40px,5vw,72px);line-height:1;color:var(--red)}
+.stats span{font-size:.8rem;color:var(--mute);text-transform:uppercase;letter-spacing:.06em}
+
+.portrait{position:relative;margin:0;max-width:100%}
+.portrait::before{content:"";position:absolute;inset:14px -14px -14px 14px;border:2px solid var(--red);border-radius:20px;z-index:0}
+.portrait img{position:relative;z-index:1;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 80%;border-radius:20px}
+.portrait figcaption{position:relative;z-index:1;margin-top:30px;font-size:.78rem;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+
+/* ============ EDUCATION ============ */
+.timeline{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.timeline li{display:grid;grid-template-columns:minmax(150px,.3fr) 1fr;gap:24px;padding:clamp(24px,3.4vw,44px) 0;border-bottom:1px solid var(--line);transition:padding .4s}
+.timeline li:hover{padding-left:clamp(10px,1.5vw,22px)}
+.timeline .when,.xp .when{font-family:var(--display);font-size:clamp(20px,2vw,28px);color:var(--mute);letter-spacing:.03em;text-transform:uppercase;transition:color .3s}
+.timeline li:hover .when,.xp-row:hover .when{color:var(--red)}
+.timeline p{margin:0;color:#d8ccb7;max-width:60ch}
+.timeline li>div{min-width:0}
+
+/* ============ EXPERIENCE ============ */
+.xp{border-top:1px solid var(--line)}
+.xp-row{display:grid;grid-template-columns:70px 1fr 1.2fr 150px;gap:24px;align-items:center;padding:clamp(22px,3vw,40px) 0;border-bottom:1px solid var(--line);transition:padding .4s}
+.xp-row:hover{padding-left:clamp(10px,1.5vw,22px)}
+.xp-row .idx{font-family:var(--display);font-size:1.2rem;color:var(--red)}
+.xp-row .desc{margin:0;color:#d8ccb7}
+.xp-row .when{text-align:right}
+
+/* ============ CONTACT ============ */
+.mega{display:inline-block;margin-bottom:clamp(36px,6vw,80px);font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(52px,11vw,180px);line-height:.92;transition:transform .5s}
+.mega:hover{transform:translateX(12px)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px)}
+.cards{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{padding:18px 22px;border:1px solid var(--line);border-radius:14px;display:flex;flex-direction:column;gap:2px;transition:.3s}
+.card:hover{border-color:var(--red);transform:translateY(-3px)}
+.card small{color:var(--mute);text-transform:uppercase;letter-spacing:.08em;font-size:.72rem}
+.card a,.card span{font-size:1.15rem;font-weight:500;word-break:break-word}
+.card a:hover{color:var(--red)}
+.socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.socials a{padding:10px 18px;border-radius:12px;border:1px solid var(--line);font-size:.9rem;transition:.3s}
+.socials a:hover{background:var(--red);border-color:var(--red)}
+
+.form{display:flex;flex-direction:column;gap:22px;min-width:0}
+.form label{display:flex;flex-direction:column;gap:6px;font-size:.75rem;color:var(--mute);text-transform:uppercase;letter-spacing:.08em}
+.form input,.form textarea{background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--ink);font:inherit;font-size:1.05rem;
+  text-transform:none;letter-spacing:0;padding:10px 0;outline:none;resize:vertical;border-radius:0;transition:border-color .3s}
+.form input:focus,.form textarea:focus{border-color:var(--red)}
+.form ::placeholder{color:#6f6252}
+.send{align-self:flex-start;display:inline-flex;gap:14px;align-items:center;margin-top:6px;padding:15px 30px;border:0;border-radius:12px;
+  background:var(--red);color:#fff;font:600 .9rem var(--body);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:transform .3s,background .3s}
+.send i{font-style:normal;transition:transform .3s}
+.send:hover{background:#f04a3d;transform:translateY(-3px)}
+.send:hover i{transform:translateX(6px)}
+
+.foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:clamp(50px,8vw,110px);padding-top:24px;border-top:1px solid var(--line);color:var(--mute);font-size:.85rem}
+.foot a:hover{color:var(--red)}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .portrait{max-width:420px;margin:0 14px 0 0;order:-1}
+  .xp-row{grid-template-columns:44px 1fr;gap:6px 14px}
+  .xp-row .desc,.xp-row .when{grid-column:2;text-align:left}
+  .timeline li{grid-template-columns:1fr;gap:8px}
+}
+@media (max-width:640px){
+  .menu{gap:6px;top:calc(12px + env(safe-area-inset-top,0px))}
+  .menu a{padding:8px 10px;font-size:10.5px;letter-spacing:.05em;border-radius:10px}
+  .topbar{display:none}
+  .giant{bottom:calc(max(100svh,56.25vw)*.42)}
+  .hero-copy{display:none}
+  .hero-bottom{justify-content:flex-start}
+  .hero-meta{justify-content:flex-start;font-size:12px}
+  .bar{display:none}
+  .page{padding-top:92px}
+  .stats{grid-template-columns:repeat(3,1fr);gap:12px}
+  .stats span{font-size:.68rem}
+  .spines{height:42px}
+}
+
+@supports (height:1cqh){
+  @media (max-width:640px){
+    .giant{bottom:calc(max(100cqh,56.25cqw)*.42)}
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}
+}
